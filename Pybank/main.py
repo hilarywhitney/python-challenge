@@ -49,7 +49,7 @@ def compute_average_change(data):
     change_total = 0
     for row in data:
         change_total += row[1]
-    average_change = change_total / len(data)
+    average_change = round(change_total / len(data), 2)
     return average_change
 
 
@@ -64,25 +64,16 @@ def determine_max_increase_decrease(data, min_or_max):
 
 
 pybank_path = os.path.join(".", 'Resources', "budget_data.csv")
-
 header, pybank_data_raw = open_csv_data(pybank_path)
-
 pybank_data = convert_prof_loss(pybank_data_raw)
-
 total_months = determine_total_months(pybank_data)
-
 net_profit_loss = compute_net_profit_loss(pybank_data)
-
 prof_loss_change = compute_all_changes(pybank_data)
-
-average_change = round(compute_average_change(prof_loss_change),2)
-
+average_change = compute_average_change(prof_loss_change)
 max_increase_month, max_increase = determine_max_increase_decrease(prof_loss_change, max)
-
 max_decrease_month, max_decrease = determine_max_increase_decrease(prof_loss_change, min)
 
 #print summary
-
 print('Financial Analysis')
 print('-' * 20)
 print(f'Total Months: {total_months}')
@@ -93,13 +84,15 @@ print(f'Greatest Decrease in Profits: {max_decrease_month} (${max_decrease})')
 
     
 create_txt = open("Pybank_Analysis.txt", "w+")
-    
 create_txt.write('Financial Analysis' + '\n')
 create_txt.write('-' * 20 + '\n')
 create_txt.write(f'Total Months: {total_months}' + '\n')
 create_txt.write(f'Total: ${net_profit_loss}' + '\n')
-create_txt.write(f'Average Change: ${round(average_change, 2)} \n')
+create_txt.write(f'Average Change: ${average_change} \n')
 create_txt.write(f'Greatest Increase in Profits: {max_increase_month} (${max_increase})' + '\n')
-create_txt.write(f'Greatest Decrease in Profits: {max_decrease_month} (${max_decrease})' + '\n')
-    
+create_txt.write(f'Greatest Decrease in Profits: {max_decrease_month} (${max_decrease})' + '\n')   
 create_txt.close()
+
+
+
+
